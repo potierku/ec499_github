@@ -64,3 +64,17 @@ plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
   geom_point()+
   labs(shape="Countries",y="Capital Formation as a percent of GDP")
 plot
+
+#labor force vs. year
+df <- data.frame(armenia$year,czech_republic$labor_growth,ukraine$labor_growth,armenia$labor_growth)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="Labor Growth")
+plot
+
+basic_czech <-lm(czech_republic$gdp_growth ~ czech_republic$labor_growth + 
+             (czech_republic$capital_gdp))
+summary(basic_czech)
