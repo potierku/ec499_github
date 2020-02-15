@@ -5,6 +5,7 @@ czech_republic <- data.frame(read_excel("Data.xlsx",sheet=2))
 ukraine <- data.frame(read_excel("Data.xlsx",sheet=3))
 armenia <- data.frame(read_excel("Data.xlsx",sheet=4))
 
+
 #gdp vs. year
 df <- data.frame(armenia$year,czech_republic$gdp,ukraine$gdp,armenia$gdp)
 names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
@@ -45,26 +46,6 @@ plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
   labs(shape="Countries",y="GDP growth (%)")
 plot
 
-#debt_gdp vs. year
-df <- data.frame(armenia$year,czech_republic$debt_gdp,ukraine$debt_gdp,armenia$debt_gdp)
-names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
-df_melted<-melt(df,id.vars="year")
-plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
-  geom_line()+
-  geom_point()+
-  labs(shape="Countries",y="Debt to GDP ratio")
-plot
-
-#capital formation vs. year
-df <- data.frame(armenia$year,czech_republic$capital/czech_republic$gdp,ukraine$capital/ukraine$gdp,armenia$capital/armenia$gdp)
-names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
-df_melted<-melt(df,id.vars="year")
-plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
-  geom_line()+
-  geom_point()+
-  labs(shape="Countries",y="Capital Formation as a percent of GDP")
-plot
-
 #labor force vs. year
 df <- data.frame(armenia$year,czech_republic$labor_growth,ukraine$labor_growth,armenia$labor_growth)
 names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
@@ -78,3 +59,65 @@ plot
 basic_czech <-lm(czech_republic$gdp_growth ~ czech_republic$labor_growth + 
              (czech_republic$capital_gdp))
 summary(basic_czech)
+
+#inflation vs year 
+df <- data.frame(armenia$year,czech_republic$inflation_cpi,ukraine$inflation_cpi,armenia$inflation_cpi)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="Inflation Rate (%)")
+plot
+
+#unemployment vs year 
+df <- data.frame(armenia$year,czech_republic$unemployment,ukraine$unemployment,armenia$unemployment)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+df_melted <- subset(df_melted,!is.na(df_melted$value))
+which(is.na(df_melted))
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="Unemployment (%)")+
+  scale_x_continuous(breaks=unique(df_melted$year))
+plot
+
+#government debt as a percentage of GDP
+df <- data.frame(armenia$year,czech_republic$debt_gdp,ukraine$debt_gdp,armenia$debt_gdp)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+df_melted <- subset(df_melted,!is.na(df_melted$value))
+which(is.na(df_melted))
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="Debt as a Percentage of GDP")+
+  scale_x_continuous(breaks=unique(df_melted$year))
+plot
+
+#FDI as a percentage of GDP
+df <- data.frame(armenia$year,czech_republic$fdi_gdp,ukraine$fdi_gdp,armenia$fdi_gdp)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+df_melted <- subset(df_melted,!is.na(df_melted$value))
+which(is.na(df_melted))
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="FDI as a Percentage of GDP")+
+  scale_x_continuous(breaks=unique(df_melted$year))
+plot
+
+#Gross Capital formation as a percentage of GDP
+df <- data.frame(armenia$year,czech_republic$capital_gdp,ukraine$capital_gdp,armenia$capital_gdp)
+names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
+df_melted<-melt(df,id.vars="year")
+df_melted <- subset(df_melted,!is.na(df_melted$value))
+which(is.na(df_melted))
+plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
+  geom_line()+
+  geom_point()+
+  labs(shape="Countries",y="Gross Capital Formation as a Percentage of GDP")+
+  scale_x_continuous(breaks=unique(df_melted$year))
+plot
