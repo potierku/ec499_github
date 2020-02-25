@@ -2,6 +2,7 @@ library(readxl)
 library(ggplot2)
 library(reshape2)
 library(ggforce)
+library(grid)
 czech_republic <- data.frame(read_excel("Data.xlsx",sheet=2))
 ukraine <- data.frame(read_excel("Data.xlsx",sheet=3))
 armenia <- data.frame(read_excel("Data.xlsx",sheet=4))
@@ -12,6 +13,8 @@ grapher <- function(title,df,y){
 names(df) <- c("year","Czech Repulbic","Ukraine","Armenia")
 df_melted<-melt(df,id.vars="year")
 df_melted <- subset(df_melted,!is.na(df_melted$value))
+xrng <- range(df_melted$year)
+yrng <- range(df_melted$value)
 plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
   geom_line()+
   geom_point()+
@@ -21,6 +24,13 @@ plot<-ggplot(data=df_melted,aes(x=year,y=value,shape=variable))+
   scale_x_continuous(breaks=unique(df_melted$year))
 plot
 }
+###########patents##########
+df <- data.frame(armenia$year,czech_republic$patents_100000,
+                 ukraine$patents_100000,armenia$patents_100000)
+title <- "Patents per 100,000 people by Year"
+y <- "Patents"
+grapher(title,df,y)
+
 
 ###########GDP##############
 df <- data.frame(armenia$year,czech_republic$gdp,
