@@ -116,3 +116,24 @@ title <- "Figure 7: Gross Capital Formation as a Percentage of GDP"
 y<- "Gross Capital Formation %"
 grapher(title,df,y)
 
+###########Lending interest rate########
+df <- data.frame(armenia$year,czech_republic$i_lend,
+                 ukraine$i_lend,armenia$i_lend)
+title <- "Figure 9: The Lending Interest Rate"
+y<- "Lending Interest Rate %"
+grapher(title,df,y)
+
+###########Lending interest early########
+df <- data.frame(armenia$year[1:14],czech_republic$i_lend[1:14],
+                 ukraine$i_lend[1:14],armenia$i_lend[1:14])
+title <- "Figure 10: The Lending Interest Rate (1992-2000)"
+y<- "Lending Interest Rate %"
+grapher(title,df,y)
+
+###########Lending interest rate late########
+df <- data.frame(armenia$year[14:40],czech_republic$i_lend[14:40],
+                 ukraine$i_lend[14:40],armenia$i_lend[14:40])
+title <- "Figure 11: The Lending Interest Rate (2000-2018)"
+y<- "Lending Interest Rate %"
+grapher(title,df,y)
+
