@@ -3,6 +3,13 @@ library(readxl)
 library(ggplot2)
 library(reshape2)
 
+#Sheet Format:
+#Your data must have each country on a separate sheet with
+#identical column names. Names must be in the top row, 
+#there must be a "year" column with all the years for which you
+#have data. The function is built to deal with missing data
+#at the end or beginning. 
+
 #creates a dataframe for each country's data.
 #replace country1,2,3 with your country names
 #replace "Data.xlsx" with the name of your data sheet
